@@ -82,18 +82,19 @@ def plotPNG(short, procent):
 # Function used to get an image of the current result
 @app.route('/getResult', methods=['GET'])
 def getResult():
+    return send_file('tmp/tester.jpg', mimetype='image/png', cache_timeout=-1)
     # Implement code that generates the result based on the latest
     # content of the zip from valmyndigheten
     # Dummy below with a static image...
-    region = request.args.get('region', default='all', type=str)
+    region = request.args.get('region', default='riks', type=str)
     downloadAndUnpack()
-    if region == 'all':
+    if region == 'riks':
         result = 'now you get all'
         procent, short = getDataRiksdag()
         plotPNG(short, procent)
     else:
         result = 'now you get ' + region         # Changed to PNG from JPG
-    return send_file('tmp/testFig.png', mimetype='image/png', cache_timeout=-1)
+    return send_file('tmp/testFig.png', mimetype='image/jpg', cache_timeout=-1)
 
 # start the server with the 'run()' method
 if __name__ == '__main__':
