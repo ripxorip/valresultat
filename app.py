@@ -23,7 +23,7 @@ def index():
 
 # Function to download and unpack data from valmyndigheten
 def downloadAndUnpack():
-    URL = 'https://data.val.se/val/val2014/valnatt/valnatt.zip'
+    URL = 'https://data.val.se/val/val2018/valnatt/valnatt.zip'
     urllib.request.urlretrieve(URL, 'tmp/valnatt.zip')
     zipFile = zipfile.ZipFile("tmp/valnatt.zip", 'r')
     zipFile.extractall("tmp/valnatt")
@@ -94,7 +94,9 @@ def plotPNG(short, procent):
     
     X1 = range(len(procent))
     procentNum = []
-    for i in range(len(procent)):                            
+    for i in range(len(procent)):
+        if procent[i] == '':
+            procent[i] = '0,0'
         procentNum.append(float(procent[i].replace(',','.')))
     barList = plt.bar(X1, procentNum)
     for i in range(len(barList)):
@@ -114,7 +116,7 @@ def plotPNG(short, procent):
         ax.text(rect.get_x() + rect.get_width() / 2, height + 1, label,
             ha='center', va='bottom')
         
-    plt.savefig('tmp/testFig.png', format='png', dpi=200)
+    plt.savefig('tmp/testFig.png', format='png', dpi=200,bbox_inches='tight')
     plt.close()
 
 # Function used to get an image of the current result
