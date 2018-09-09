@@ -42,6 +42,43 @@ def getDataRiksdag():
             short.append(child.attrib['PARTI'])
     return procent, short
 
+def getDataRiksdagSturk():
+    tree = ET.parse('tmp/valnatt/valnatt_1080R.xml')
+    root = tree.getroot()
+    sturk = root.findall('./KOMMUN/KRETS_KOMMUN/VALDISTRIKT[@KOD="10801107"]')[0]
+    short = []
+    procent = []
+    for child in sturk:
+        if child.tag == "GILTIGA":
+            procent.append(child.attrib['PROCENT'])
+            short.append(child.attrib['PARTI'])
+    return procent, short
+    
+def getDataKommSturk():
+    tree = ET.parse('tmp/valnatt/valnatt_1080K.xml')
+    root = tree.getroot()
+    sturk = root.findall('./KOMMUN/KRETS_KOMMUN/VALDISTRIKT[@KOD="10801107"]')[0]
+    short = []
+    procent = []
+    for child in sturk:
+        if child.tag == "GILTIGA":
+            procent.append(child.attrib['PROCENT'])
+            short.append(child.attrib['PARTI'])
+    return procent, short
+    
+def getDataKommGBG():
+    tree = ET.parse('tmp/valnatt/valnatt_1480K.xml')
+    root = tree.getroot()
+    kommun = root.find('./KOMMUN[@KOD="1480"]')
+    # Lists to store data being parsed
+    short = []
+    procent = []
+    for child in kommun:
+        if child.tag == "GILTIGA":
+            procent.append(child.attrib['PROCENT'])
+            short.append(child.attrib['PARTI'])
+    return procent, short    
+
 def plotPNG(short, procent):
     # Party Colors
     color = dict()
@@ -76,24 +113,28 @@ def plotPNG(short, procent):
         height = rect.get_height()
         ax.text(rect.get_x() + rect.get_width() / 2, height + 1, label,
             ha='center', va='bottom')
-
+        
     plt.savefig('tmp/testFig.png', format='png', dpi=200)
-    
+    plt.close()
+
 # Function used to get an image of the current result
 @app.route('/getResult', methods=['GET'])
 def getResult():
-    return send_file('tmp/tester.jpg', mimetype='image/png', cache_timeout=-1)
-    # Implement code that generates the result based on the latest
-    # content of the zip from valmyndigheten
-    # Dummy below with a static image...
     region = request.args.get('region', default='riks', type=str)
     downloadAndUnpack()
     if region == 'riks':
-        result = 'now you get all'
         procent, short = getDataRiksdag()
         plotPNG(short, procent)
-    else:
-        result = 'now you get ' + region         # Changed to PNG from JPG
+    elif region == 'riksSturk':
+        procent, short = getDataRiksdagSturk()
+        plotPNG(short, procent)
+    elif region == 'kommSturk':
+        procent, short = getDataKommSturk()
+        plotPNG(short, procent)        
+    elif region == 'kommGbg':
+        procent, short = getDataKommGBG()
+        plotPNG(short, procent)
+
     return send_file('tmp/testFig.png', mimetype='image/jpg', cache_timeout=-1)
 
 # start the server with the 'run()' method
