@@ -32,7 +32,7 @@ window.setInterval(function timeFunc () {
   updateResult();
   // Update number of done
   updateTotalDone();
-}, 25000);
+}, 10000);
 
 // Set the inital result header
 $(".res-header").html("Current results for: Riksdag (Hela Sverige)");

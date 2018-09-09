@@ -123,7 +123,7 @@ def plotPNG(short, procent):
 @app.route('/getResult', methods=['GET'])
 def getResult():
     region = request.args.get('region', default='riks', type=str)
-    downloadAndUnpack()
+#    downloadAndUnpack()
     if region == 'riks':
         procent, short = getDataRiksdag()
         plotPNG(short, procent)
