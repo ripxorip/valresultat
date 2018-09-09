@@ -139,6 +139,16 @@ def getResult():
 
     return send_file('tmp/testFig.png', mimetype='image/jpg', cache_timeout=-1)
 
+@app.route('/getValdisitrikt', methods=['GET'])
+def getValdistrikt():
+    tree = ET.parse('tmp/valnatt/valnatt_00R.xml')
+    root = tree.getroot()
+    nation = root.find('NATION')
+    klara = nation.attrib['KLARA_VALDISTRIKT']
+    alla = nation.attrib['ALLA_VALDISTRIKT']
+    msg = klara + ' av totalt ' + alla + ' valdistrikt är räknade'
+    return msg
+
 # start the server with the 'run()' method
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, use_reloader=True)
