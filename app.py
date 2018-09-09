@@ -77,7 +77,7 @@ def plotPNG(short, procent):
         ax.text(rect.get_x() + rect.get_width() / 2, height + 1, label,
             ha='center', va='bottom')
 
-    plt.savefig('tmp/testFig.png', format='png', dpi=1000)
+    plt.savefig('tmp/testFig.png', format='png', dpi=200)
     
 # Function used to get an image of the current result
 @app.route('/getResult', methods=['GET'])
