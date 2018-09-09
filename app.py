@@ -139,7 +139,7 @@ def getResult():
 
     return send_file('tmp/testFig.png', mimetype='image/jpg', cache_timeout=-1)
 
-@app.route('/getValdisitrikt', methods=['GET'])
+@app.route('/getValdistrikt', methods=['GET'])
 def getValdistrikt():
     tree = ET.parse('tmp/valnatt/valnatt_00R.xml')
     root = tree.getroot()
