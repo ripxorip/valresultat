@@ -22,10 +22,22 @@ function setRegion(reg) {
   updateResult();
 }
 
+function updateTotalDone () {
+  $.get( "getValdistrikt", function( data ) {
+      $(".val-title").html("Andreas and Philips Election Results (" + data + ")");
+  });
+}
+
 window.setInterval(function timeFunc () {
   updateResult();
+  // Update number of done
+  updateTotalDone();
 }, 10000);
 
 // Set the inital result header
 $(".res-header").html("Current results for: Riksdag (Hela Sverige)");
 
+// Initial retrival before the timer kicks in
+updateResult();
+// Update number of done
+updateTotalDone();
